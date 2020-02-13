@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int subarraysWithKDistinct(vector<int> &a, int k) {
+        int sz = 20010;
+        vector<int> dt(sz, 0);
+        vector<int> cur(sz, 0);
+
+        int l = 0, r = 0, balance = 0;
+        long long ans = 0;
+        int n = a.size();
+        int cur_bal = 0, p = 0;
+        while (r < n) {
+            while (r < n && balance <= k) {
+                if (dt[a[r]]++ == 0) {
+                    balance++;
+                }
+                r++;
+            }
+            if (balance > k) {
+                r--; dt[a[r]]--; balance--;
+            }
+
+            while (balance == k) {
+                while (p < r && cur_bal < k) {
+                    if (cur[a[p]]++ == 0) {
+                        cur_bal++;
+                    }
+                    p++;
+                }
+                while (l < p) {
+                    --dt[a[l]];
+                    ans += r - p + 1;
+                    if (--cur[a[l]] == 0) {
+                        if (dt[a[l]] == 0) {
+                            balance--;
+                        }
+                        cur_bal--; l++;
+                        break;
+                    }
+                    l++;
+                }
+            }
+        }
+        return ans;
+    }
+};
