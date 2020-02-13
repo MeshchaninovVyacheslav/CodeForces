@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int ans = 0;
+        for (int ch = 'A'; ch <= 'Z'; ch++) {
+            int l = 0, r = 0, balance = 0;
+            while(1) {
+                while (r < s.length() && balance <= k) {
+                    if (s[r] != ch) {
+                        balance++;
+                    }
+                    r++;
+                }
+                if (r == s.length()) {
+                    ans = max(ans, r - l - (int)(balance > k));
+                    break;
+                }
+                ans = max(ans, r - l - 1);
+                while (l < r && balance > k) {
+                    if (s[l] != ch) {
+                        balance--;
+                    }
+                    l++;
+                }
+            }
+        }
+        return ans;
+    }
+};
