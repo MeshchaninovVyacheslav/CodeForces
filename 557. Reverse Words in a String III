@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        int pos = 0, prev_pos = 0;
+        
+        while (1) {
+            if (s[pos] == ' ' || s.length() == pos) {
+                int ind1 = prev_pos, ind2 = pos - 1;
+                while (ind1 < ind2) {
+                    int t = s[ind1];
+                    s[ind1] = s[ind2];
+                    s[ind2] = t;
+                    ind1++;
+                    ind2--;
+                }
+                prev_pos = pos + 1;
+            }
+            if (pos >= s.length()) {
+                break;
+            }
+            pos++;
+        }
+        return s;
+    }
+};
