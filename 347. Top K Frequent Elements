@@ -1,0 +1,28 @@
+class Solution1 {
+public:
+    vector<int> topKFrequent(vector<int>& a, int k) {
+        vector<pair<int, int>> data;
+        if (a.size() == 0) {
+            return {};
+        }
+        sort(a.begin(), a.end());
+        int num = a[0];
+        int count = 0;
+        for (int i = 0; i < a.size(); i++) {
+            if (a[i] == num) {
+                count++;
+            } else {
+                data.push_back({count, num});
+                num = a[i];
+                count = 1;
+            }
+        }
+        data.push_back({count, num});
+        sort(data.begin(), data.end());
+        vector<int> ans;
+        for (int i = data.size() - 1; k--; i--) {
+            ans.push_back(data[i].second);
+        }
+        return ans;
+    }
+};
