@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string lastSubstring(string s) {
+        int ind_ans = 0, ind = 1;
+        while (ind < s.length()) {
+            int k = 0;
+            while (ind + k < s.length()) {
+                if (s[ind_ans + k] < s[ind + k]) {
+                    ind_ans = ind;
+                    ind = max(ind + k - 2, ind + 1);
+                    break;
+                }
+                if (s[ind_ans + k] > s[ind + k]) {
+                    ind = ind + k + 1;
+                    break;
+                }
+                k++;
+                if (ind + k == s.length()) {
+                    ind = s.length();
+                    break;
+                }
+            }
+        }
+        return string(s.begin() + ind_ans, s.end());
+    }
+};
