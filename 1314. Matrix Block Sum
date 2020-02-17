@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<vector<int>> matrixBlockSum(vector<vector<int>>& mat, int k) {
+        if (mat.size() == 0) {
+            return {{}};
+        }
+        int n = mat.size(), m = mat[0].size();
+        vector<vector<int>> dp(n + 2 * k, vector<int>(m + 2 * k, 0));
+        for (int i = k; i < n + k; i++) {
+            for (int j = k; j < m + k; j++) {
+                dp[i][j] = mat[i - k][j - k];
+            }
+        }
+        vector<vector<int>> ans(n, vector<int>(m , 0));
+        auto fill = [&](int i, int j) {
+            for (int i1 = i; i1 <= i + 2 * k; i1++) {
+                for (int j1 = j; j1 <= j + 2 * k; j1++) {
+                    ans[i][j] += dp[i1][j1];
+                }
+            }
+        };
+        fill(0 , 0);
+        for (int i = 1; i < m; i++) {
+            fill(0, i);
+        }
+        for (int i = 1; i < n; i++) {
+            fill(i, 0);
+        }
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                ans[i][j] = ans[i - 1][j] + ans[i][j - 1] - ans[i - 1][j - 1] + dp[i - 1][j - 1] - dp[i + 2 * k][j - 1] - dp[i - 1][j + 2 * k] + dp[i + 2 * k][j + 2 * k];
+            }
+        }
+        return ans;
+    }
+};
